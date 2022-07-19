@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mengxuegu.member.mapper.GoodsMapper">
+
+
+    <!-- 分页查询商品列表-->
+    <select id="searchPage" resultType="Goods">
+        select t1.*, t2.name supplierName
+        from tb_goods t1
+                 LEFT JOIN tb_supplier t2
+                           on t1.supplier_id = t2.id
+        where 1 = 1
+        <if test="req.name != null and req.name !='' ">
+          and t1.name like CONCAT('%', #{req.name}, '%')
+        </if>
+
+        <if test="req.code != null and req.code !='' ">
+            and t1.code like CONCAT('%', #{req.code}, '%')
+        </if>
+
+        <if test="req.supplierId != null">
+            and t1.supplier_id  = #{req.supplier_id}
+        </if>
+
+    </select>
+
+</mapper>
+
